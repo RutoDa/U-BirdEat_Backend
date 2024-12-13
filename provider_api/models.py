@@ -44,7 +44,7 @@ class Order(models.Model):
     id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
-    delivery = models.ForeignKey(Deliver, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    deliver = models.ForeignKey(Deliver, on_delete=models.CASCADE, null=True, blank=True, default=None)
     delivery_address = models.CharField(max_length=100)
     total_price = models.PositiveIntegerField()
     delivery_fee = models.PositiveIntegerField()
