@@ -19,4 +19,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("provider/", include("provider_api.urls", namespace='provider_api')),
     path("deliver/", include("deliver_api.urls", namespace='deliver_api')),
+    path("customer/", include("customer_api.urls", namespace='customer_api')),
 ]
