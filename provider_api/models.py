@@ -6,7 +6,7 @@ from deliver_api.models import Deliver
 
 class Provider(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     shop_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)
     address = models.CharField(max_length=100)
@@ -21,7 +21,7 @@ class Provider(models.Model):
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    provider_id = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -40,9 +40,9 @@ class OrderStatus(models.IntegerChoices):
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
-    customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    provider_id = models.ForeignKey(Provider, on_delete=models.CASCADE)
-    delivery_id = models.ForeignKey(Deliver, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    delivery = models.ForeignKey(Deliver, on_delete=models.CASCADE)
     delivery_address = models.CharField(max_length=100)
     total_price = models.PositiveIntegerField()
     status = models.IntegerField(choices=OrderStatus.choices, default=OrderStatus.PROVIDER_PREPARING)
@@ -50,16 +50,16 @@ class Order(models.Model):
     memo = models.TextField()
 
     def __str__(self):
-        return self.id
+        return str(self.id)
     
 
 class OrderDetail(models.Model):
-    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count = models.PositiveIntegerField()
 
     class Meta:
         unique_together = (('order_id', 'product_id'),)
 
     def __str__(self):
-        return f"{self.order_id}-{self.product_id}"
+        return f"oid:{self.order_id}-pid{self.product_id}"

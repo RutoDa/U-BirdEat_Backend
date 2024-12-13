@@ -1,22 +1,115 @@
-from django.contrib.auth.models import Group, User
-from rest_framework import permissions, viewsets
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Provider, Product, Order, OrderDetail
+from .serializers import ProviderSerializer, ProfileSerializer, ProductSerializer, OrderSerializer, OrderDetailSerializer, SimpleOrderSerializer
+from .permissions import IsProvider
 
-from tutorial.quickstart.serializers import GroupSerializer, UserSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class RegisterView(APIView):
     """
-    API endpoint that allows users to be viewed or edited.
+    提供商家註冊 (POST) 的功能
     """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        print(request.data)
+        serializer = ProviderSerializer(data=request.data)
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(None, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class ProfileView(generics.RetrieveUpdateAPIView):
     """
-    API endpoint that allows groups to be viewed or edited.
+    提供取得商家資訊 (GET) 和更新商家資訊 (PUT) 的功能
     """
-    queryset = Group.objects.all().order_by('name')
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = Provider.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.IsAuthenticated, IsProvider]
+
+    def get_object(self):
+        try:
+            return self.queryset.get(user=self.request.user)
+        except Provider.DoesNotExist:
+            return None
+
+
+class ProductsView(generics.ListCreateAPIView):
+    """
+    提供列出商家有的商品 (GET) 和新增商品 (POST) 的功能
+    """
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated, IsProvider]
+
+    def get_queryset(self):
+        return Product.objects.filter(provider=self.request.user.provider)
+    
+    def perform_create(self, serializer):
+        serializer.save(provider=self.request.user.provider)
+
+
+class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    提供取得單個商品資訊 (GET)、更新商品資訊 (PUT/PATCH) 和刪除商品 (DELETE) 的功能
+    """
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated, IsProvider]
+
+    def get_queryset(self):
+        return Product.objects.filter(provider=self.request.user.provider)
+    
+
+class OrdersView(generics.ListAPIView):
+    """
+    提供列出商家的訂單 (GET) 的功能
+    """
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated, IsProvider]
+
+    def get_queryset(self):
+        return Order.objects.filter(provider=self.request.user.provider)
+
+
+
+class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    提供取得單個訂單資訊 (GET)、更新訂單資訊 (PUT/PATCH) 和刪除訂單 (DELETE) 的功能
+    """
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated, IsProvider]
+
+    def get_queryset(self):
+        return Order.objects.filter(provider=self.request.user.provider)
+    
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            
+            order = Order.objects.get(id=kwargs['pk'])
+            order_detail = OrderDetail.objects.filter(order=kwargs['pk'])
+            order_serializer = OrderSerializer(order)
+            product_serializer = OrderDetailSerializer(order_detail, many=True)
+            data = {
+            'order_info': order_serializer.data,
+            'product_info': product_serializer.data
+            }
+            return Response(data)
+        except Order.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class IncomeView(APIView):
+    """
+    提供取得商家總收入的功能
+    """
+    permission_classes = [permissions.IsAuthenticated, IsProvider]
+
+    def get(self, request):
+        orders = Order.objects.filter(provider=request.user.provider, status__gte=1)
+        print(orders)
+        order_serializer = SimpleOrderSerializer(orders, many=True)
+        total_income = sum(order.total_price for order in orders)
+        return Response({'total_income': total_income, 'orders': order_serializer.data})
