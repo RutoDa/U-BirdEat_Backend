@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Customer(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     # customer information
     real_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)

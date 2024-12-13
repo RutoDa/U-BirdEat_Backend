@@ -14,9 +14,7 @@ class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        print(request.data)
         serializer = ProviderSerializer(data=request.data)
-        print(serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(None, status=status.HTTP_201_CREATED)

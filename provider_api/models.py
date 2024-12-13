@@ -59,7 +59,7 @@ class OrderDetail(models.Model):
     count = models.PositiveIntegerField()
 
     class Meta:
-        unique_together = (('order_id', 'product_id'),)
+        unique_together = (('order', 'product'),)
 
     def __str__(self):
         return f"oid:{self.order_id}-pid{self.product_id}"
