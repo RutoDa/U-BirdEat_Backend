@@ -106,7 +106,6 @@ class IncomeView(APIView):
 
     def get(self, request):
         orders = Order.objects.filter(provider=request.user.provider, status__gte=1)
-        print(orders)
         order_serializer = SimpleOrderSerializer(orders, many=True)
         total_income = sum(order.provider_fee for order in orders)
         return Response({'total_income': total_income, 'orders': order_serializer.data})
