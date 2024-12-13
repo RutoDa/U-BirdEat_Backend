@@ -85,7 +85,6 @@ class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     
     def retrieve(self, request, *args, **kwargs):
         try:
-            
             order = Order.objects.get(id=kwargs['pk'])
             order_detail = OrderDetail.objects.filter(order=kwargs['pk'])
             order_serializer = OrderSerializer(order)
@@ -109,5 +108,5 @@ class IncomeView(APIView):
         orders = Order.objects.filter(provider=request.user.provider, status__gte=1)
         print(orders)
         order_serializer = SimpleOrderSerializer(orders, many=True)
-        total_income = sum(order.total_price for order in orders)
+        total_income = sum(order.provider_fee for order in orders)
         return Response({'total_income': total_income, 'orders': order_serializer.data})

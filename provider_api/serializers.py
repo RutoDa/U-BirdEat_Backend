@@ -50,14 +50,14 @@ class ProductSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['id', 'total_price', 'status', 'created_at', 'memo']
-        read_only_fields = ['id', 'total_price', 'created_at', 'memo']
+        fields = ['id', 'total_price', 'provider_fee', 'status', 'created_at', 'memo']
+        read_only_fields = ['id', 'total_price', 'provider_fee', 'created_at', 'memo']
         
 
 class SimpleOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['id', 'total_price', 'created_at']
+        fields = ['id', 'provider_fee', 'created_at']
 
 
 class SimpleProductSerializer(serializers.ModelSerializer):
