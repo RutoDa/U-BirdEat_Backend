@@ -18,4 +18,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
     path("provider/", include("provider_api.urls", namespace='provider_api')),
+    path("deliver/", include("deliver_api.urls", namespace='deliver_api')),
 ]
