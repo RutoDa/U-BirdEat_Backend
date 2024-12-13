@@ -1,6 +1,8 @@
 from rest_framework import generics, permissions, status
 from rest_framework import serializers
 from .models import Deliver
+from customer_api.models import Customer
+from provider_api.models import Order, Provider
 from django.contrib.auth.models import User
 
 
@@ -34,3 +36,37 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deliver
         fields = ['real_name', 'phone']
+        
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['id', 'delivery_fee', 'status', 'created_at']
+        read_only_fields = ['id', 'delivery_fee', 'created_at']
+    
+
+class CustomerSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = ['real_name', 'phone']    
+
+
+class ProviderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Provider
+        fields = ['shop_name', 'address']
+
+
+class OrderDetailSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    status = serializers.IntegerField()
+    customer = CustomerSerilizer()
+    provider = ProviderSerializer()
+    total_price = serializers.IntegerField()
+    delivery_fee = serializers.IntegerField()
+    delivery_address = serializers.CharField(max_length=100)
+    
+class SimpleOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['id', 'delivery_fee', 'created_at']
