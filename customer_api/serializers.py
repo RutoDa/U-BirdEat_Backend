@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Customer
+from provider_api.models import Provider, Product, Order, OrderDetail
 from django.contrib.auth.models import User
 
 
@@ -27,3 +28,52 @@ class CustomerSerializer(serializers.Serializer):
             phone=validated_data['phone']
         )
         return customer
+    
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = ['real_name', 'phone']
+        
+
+class ProviderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Provider
+        fields = ['id', 'shop_name', 'image_url', 'category']
+        
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'price', 'description']
+        
+
+class OrderSerializer(serializers.Serializer):
+    provider = serializers.IntegerField()
+    delivery_address = serializers.CharField(max_length=100)
+    memo = serializers.CharField(max_length=300)
+
+
+class OrderProductSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    count = serializers.IntegerField(min_value=0)
+
+
+class OrderProductDetailSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    price = serializers.IntegerField(min_value=0)
+    count = serializers.IntegerField(min_value=0)
+    
+
+class OrderInfoSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    shop_name = serializers.CharField(max_length=100)
+    deliver_name = serializers.CharField(max_length=100, allow_null=True)
+    status = serializers.IntegerField()
+    total_price = serializers.IntegerField()
+    created_at = serializers.DateTimeField()
+    memo = serializers.CharField(max_length=300)
+    products = OrderProductDetailSerializer(many=True)
+    
+
+    
