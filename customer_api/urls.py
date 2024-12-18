@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import RegisterView, ProfileView, ProvidersView, ProivderDetailView, OrderView, OrderDetailView, RandomChoiceView
+from .views import RegisterView, ProfileView, ProvidersView, ProivderDetailView, OrderView, OrderDetailView, RandomChoiceView, ChatRobotView
 
 app_name = 'provider_api'
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('order/', OrderView.as_view(), name='order'),
     path('order/<int:pk>/', OrderDetailView.as_view(), name='order_detail'),
     path('random_choice/', RandomChoiceView.as_view(), name='random_choice'),
+    path('chatbot/', ChatRobotView.as_view(), name='chatbot'),
 ]

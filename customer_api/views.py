@@ -6,6 +6,7 @@ from .models import Customer
 from provider_api.models import Order, OrderStatus, Provider, Product, OrderDetail
 from .serializers import CustomerSerializer, ProfileSerializer, ProviderSerializer, ProductSerializer, OrderSerializer, OrderProductSerializer, OrderInfoSerializer
 from .permissions import IsCustomer
+from .chatbot import get_chatbot_response
 
 
 class RegisterView(APIView):
@@ -166,9 +167,38 @@ class OrderDetailView(APIView):
             return Response(None, status=status.HTTP_404_NOT_FOUND)
 
 
-# TODO: ChatRobotView
+class ChatRobotView(APIView):
+    """
+    智能機器人功能（機器人可以透過聊天了解顧客需求，並推薦餐廳與商品）
+    """
+    permission_classes = [permissions.IsAuthenticated, IsCustomer]
 
-# TODO: RandomChoiceView
+    def post(self, request):
+        prompt = request.data.get('prompt')
+        if prompt is None:
+            return Response({'error': '請提供對話內容'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            response = get_chatbot_response(request.user.customer, prompt)
+            return Response({'response': response})
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    def get(self, request):
+        records = request.user.customer.chatrecord_set.all().order_by('created_at')
+        history = list()
+        for record in records:
+            history.append({
+                'role': record.role,
+                'content': record.content,
+                'created_at': record.created_at
+            })
+        return Response({'history': history})
+    
+    def delete(self, request):
+        request.user.customer.chatrecord_set.all().delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+        
+
 class RandomChoiceView(APIView):
     """
     提供隨機選餐功能（若顧客不知道要吃什麼，只要給定預算，可以透過此功能讓系統幫你搭配並下定單）
