@@ -11,3 +11,14 @@ class Customer(models.Model):
     
     def __str__(self):
         return self.real_name
+    
+
+class ChatRecord(models.Model):
+    id = models.AutoField(primary_key=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    role = models.CharField(max_length=10)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.content
