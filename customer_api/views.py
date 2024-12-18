@@ -169,3 +169,84 @@ class OrderDetailView(APIView):
 # TODO: ChatRobotView
 
 # TODO: RandomChoiceView
+class RandomChoiceView(APIView):
+    """
+    提供隨機選餐功能（若顧客不知道要吃什麼，只要給定預算，可以透過此功能讓系統幫你搭配並下定單）
+    """
+    permission_classes = [permissions.IsAuthenticated, IsCustomer]
+    
+    def post(self, request):
+        budget = request.data.get('budget')
+        delivery_address = request.data.get('delivery_address')
+        
+        if budget is None:
+            return Response({'error': '請提供預算'}, status=status.HTTP_400_BAD_REQUEST)
+        if delivery_address is None:
+            return Response({'error': '請提供送餐地址'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            provider = Provider.objects.get(id=request.data.get('provider'))
+        except Provider.DoesNotExist:
+            return Response({'error': '無效的供應商'}, status=status.HTTP_404_NOT_FOUND)
+        remaining_products = provider.product_set.filter(price__lte=budget)
+        if not remaining_products.exists():
+            return Response({'error': '無符合預算的商品'}, status=status.HTTP_404_NOT_FOUND)
+        
+        order = Order.objects.create(
+            customer=request.user.customer,
+            provider=provider,
+            delivery_address=delivery_address,
+            memo='隨機選餐',
+            total_price=0,
+            status=OrderStatus.PROVIDER_PREPARING
+        )
+        
+        
+        products_selected = dict()
+        total_price = 0
+
+        while budget > 0:
+            remaining_products = provider.product_set.filter(price__lte=budget)
+            if not remaining_products.exists:
+                break
+            
+            # 隨機選擇一個商品
+            product = remaining_products.order_by('?').first()
+            if product is None:
+                break
+            
+            if product.id in products_selected:
+                order_detail_item = OrderDetail.objects.get(order=order, product=product)
+                order_detail_item.count += 1
+                order_detail_item.save()            
+                products_selected[product.id]['count'] += 1
+            else:
+                OrderDetail.objects.create(
+                    order=order,
+                    product=product,
+                    count=1
+                )
+                products_selected[product.id] = {
+                    'name': product.name,
+                    'price': product.price,
+                    'count': 1
+                }
+            total_price += product.price
+            budget -= product.price
+
+        order.total_price = total_price
+        order.save()
+        
+        order_data = {
+            "id": order.id,
+            "shop_name": order.provider.shop_name,
+            "deliver_name": None,
+            "status": order.status,
+            "total_price": order.total_price,
+            "created_at": order.created_at,
+            "memo": order.memo,
+            'products': list(products_selected.values())
+        }
+        order_data_serializer = OrderInfoSerializer(data=order_data)
+        if order_data_serializer.is_valid():
+            return Response(order_data_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(order_data_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
