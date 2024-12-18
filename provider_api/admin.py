@@ -27,3 +27,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('provider', 'created_at')
     search_fields = ('name', 'provider__shop_name')
 
+@admin.register(Provider)
+class ProviderAdmin(admin.ModelAdmin):
+    list_display = ('shop_name', 'address', 'category', 'image_url')
+    search_fields = ('shop_name', 'category')
