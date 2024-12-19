@@ -213,13 +213,21 @@ class RandomChoiceView(APIView):
             return Response({'error': '請提供預算'}, status=status.HTTP_400_BAD_REQUEST)
         if delivery_address is None:
             return Response({'error': '請提供送餐地址'}, status=status.HTTP_400_BAD_REQUEST)
-        try:
-            provider = Provider.objects.get(id=request.data.get('provider'))
-        except Provider.DoesNotExist:
-            return Response({'error': '無效的供應商'}, status=status.HTTP_404_NOT_FOUND)
-        remaining_products = provider.product_set.filter(price__lte=budget)
-        if not remaining_products.exists():
-            return Response({'error': '無符合預算的商品'}, status=status.HTTP_404_NOT_FOUND)
+        
+        max_retries = Provider.objects.count()
+        retries = 0
+        while retries < max_retries:
+            provider = Provider.objects.order_by('?').first()
+            if provider is None:
+                retries += 1
+                continue
+            remaining_products = provider.product_set.filter(price__lte=budget)
+            if remaining_products.exists():
+                break
+            retries += 1
+        else:
+            return Response({'error': '無法找到符合預算的供應商'}, status=status.HTTP_404_NOT_FOUND)
+           
         
         order = Order.objects.create(
             customer=request.user.customer,
