@@ -64,6 +64,27 @@ class ProivderDetailView(APIView):
             raise NotFound()
 
 
+class OrdersView(APIView):
+    """
+    提供列出所有訂單 (GET) 的功能
+    """
+    permission_classes = [permissions.IsAuthenticated, IsCustomer]
+    
+    def get(self, request):
+        orders = request.user.customer.order_set.all().order_by('-created_at')
+        order_data = []
+        for order in orders:
+            order_data.append({
+                "id": order.id,
+                "shop_name": order.provider.shop_name,
+                "deliver_name": order.deliver.real_name if order.deliver else None,
+                "status": order.status,
+                "total_price": order.total_price,
+                "created_at": order.created_at,
+            })
+        return Response(order_data)
+
+
 class OrderView(APIView):
     """
     提供下訂單 (POST) 的功能
@@ -73,6 +94,10 @@ class OrderView(APIView):
     def post(self, request):
         order_data = request.data.get('order_detail')
         products_data = request.data.get('products')
+        
+        # Set default memo if empty
+        if not order_data.get('memo'):
+            order_data['memo'] = '無備註'
         
         order_serializer = OrderSerializer(data=order_data)
         if not order_serializer.is_valid():
