@@ -51,7 +51,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.Serializer):
     provider = serializers.IntegerField()
     delivery_address = serializers.CharField(max_length=100)
-    memo = serializers.CharField(max_length=300)
+    memo = serializers.CharField(max_length=300, allow_blank=True)
 
 
 class OrderProductSerializer(serializers.Serializer):
