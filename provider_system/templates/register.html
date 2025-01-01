@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}
+  註冊-
+{% endblock %}
+{% block content %}
+  {% load static %}
+  <div class="login-container p-4">
+    <h1 class="display-1 text-center"><strong>U-Bird Eats</strong></h1>
+    <h2 class="text-center">商家註冊</h2>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} w-50 shadow-sm mx-auto text-center mb-4 fade show">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="usernam">帳號:</label>
+        <input type="text" id="username" name="username" class="form-control" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="password">密碼:</label>
+        <input type="password" id="password" name="password" class="form-control" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="password2">確認密碼:</label>
+        <input type="password" id="password2" name="password2" class="form-control" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="shop_name">商家名稱:</label>
+        <input type="text" id="shop_name" name="shop_name" class="form-control" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="phone">電話號碼:</label>
+        <input type="text" id="phone" name="phone" class="form-control" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="address">商家地址:</label>
+        <input type="text" id="address" name="address" class="form-control" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="image_url">商家圖片:</label>
+        <input type="text" id="image_url" name="image_url" class="form-control" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="category">餐廳類別:</label>
+        <input type="text" id="category" name="category" class="form-control" autocomplete="off" required />
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-success">註冊</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}
+  商家管理 -
+{% endblock %}
+{% block content %}
+  {% load static %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} shadow-sm mx-auto text-center mb-4 fade show">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+        <div class="card shadow-lg mb-5">
+          <div class="card-body p-5">
+            <div class="text-center mb-4">
+              <img src="{{ provider.image_url }}" class="img-thumbnail rounded-circle shadow" style="width: 200px; height: 200px; object-fit: cover;" alt="商家圖片" />
+            </div>
+            <h1 class="display-4 text-center fw-bold mb-4">{{ provider.shop_name }}</h1>
+
+            <div class="card bg-light mb-4">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h3 class="card-title h4 mb-0">商家資訊</h3>
+                  <a href="{% url 'provider_system:profile_edit' %}" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-square me-1"></i>修改商家資訊</a>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <p class="mb-2">
+                      <i class="bi bi-telephone-fill me-2"></i>
+                      <strong>電話:</strong> {{ provider.phone }}
+                    </p>
+                  </div>
+                  <div class="col-md-4">
+                    <p class="mb-2">
+                      <i class="bi bi-geo-alt-fill me-2"></i>
+                      <strong>地址:</strong> {{ provider.address }}
+                    </p>
+                  </div>
+                  <div class="col-md-4">
+                    <p class="mb-2">
+                      <i class="bi bi-tag-fill me-2"></i>
+                      <strong>類別:</strong> {{ provider.category }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h3 class="card-title h4 mb-0">商品列表</h3>
+                  <a href="{% url 'provider_system:product_create' %}" class="btn btn-success"><i class="bi bi-plus-circle me-2"></i>新增商品</a>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                      <tr class="text-center">
+                        <th style="width: 20%;">名稱</th>
+                        <th style="width: 15%;">價格</th>
+                        <th style="width: 15%;">修改日期</th>
+                        <th style="width: 25%;">描述</th>
+                        <th style="width: 25%;">修改/刪除</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for product in products %}
+                        <tr class="text-center">
+                          <td class="fw-bold">{{ product.name }}</td>
+                          <td>NT$ {{ product.price }}</td>
+                          <td>{{ product.update_at|date:'Y/m/d H:i' }}</td>
+                          <td>{{ product.description|truncatechars:10 }}</td>
+                          <td class="text-center">
+                            <div class="btn-group" role="group">
+                              <a href="{% url 'provider_system:product_edit' product.id %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil me-1"></i></a>
+                              <a href="{% url 'provider_system:product_delete' product.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('確定要刪除此商品嗎？');"><i class="bi bi-trash me-1"></i></a>
+                            </div>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

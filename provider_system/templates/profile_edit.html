@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}
+  商家資訊修改 -
+{% endblock %}
+{% block content %}
+  <div class="login-container p-4">
+    <h1 class="display-1 text-center"><strong>{{ provider.shop_name }}</strong></h1>
+    <h2 class="text-center">商家資訊修改</h2>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} shadow-sm mx-auto text-center mb-4 fade show">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="shop_name">商家名稱:</label>
+        <input type="text" id="shop_name" name="shop_name" class="form-control" value="{{ provider.shop_name }}" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="phone">電話號碼:</label>
+        <input type="text" id="phone" name="phone" class="form-control" value="{{ provider.phone }}" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="address">商家地址:</label>
+        <input type="text" id="address" name="address" class="form-control" value="{{ provider.address }}" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="image_url">商家圖片:</label>
+        <input type="text" id="image_url" name="image_url" class="form-control" value="{{ provider.image_url }}" autocomplete="off" required />
+      </div>
+
+      <div class="form-group mb-3 w-50 jusitfy-content-center mx-auto">
+        <label for="category">餐廳類別:</label>
+        <input type="text" id="category" name="category" class="form-control" value="{{ provider.category }}" autocomplete="off" required />
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-success">修改</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
