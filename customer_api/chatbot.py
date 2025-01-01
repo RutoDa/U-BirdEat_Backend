@@ -21,7 +21,7 @@ def get_db_info():
         }
     return info
 
-SYSTEM_MESSAGE_TEMPLATE = "你是 U-BirdEAT 外送平台的智能機器人功能，你可以透過聊天了解顧客需求，並推薦餐廳與商品。以下為平台資料庫中的資訊，請依照平台中的餐廳與產品資訊，進行回覆:\n"
+SYSTEM_MESSAGE_TEMPLATE = "你是 U-BirdEAT 外送平台的智能機器人功能，你可以透過聊天了解顧客需求，並推薦餐廳與商品。以下為平台資料庫中的資訊，請依照平台中的餐廳與產品資訊，進行回覆(請不要使用Markdown格式):\n"
 
 def get_chatbot_response(customer, prompt):
     client = OpenAI()

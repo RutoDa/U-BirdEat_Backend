@@ -18,8 +18,13 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = CustomerSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(None, status=status.HTTP_201_CREATED)
+            try:
+                serializer.save()
+                return Response(None, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                if 'UNIQUE constraint' in str(e):
+                    return Response({'error': '帳號已存在'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
