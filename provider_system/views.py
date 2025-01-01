@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
-from provider_api.models import Provider, Product
+from provider_api.models import Provider, Product, COMMISSION_RATE, Order
 from django.contrib.auth.decorators import login_required
 from functools import wraps
 
@@ -219,3 +219,86 @@ def product_delete_view(request, product_id):
         messages.add_message(request, messages.WARNING, '刪除失敗')
     
     return redirect('provider_system:home')
+
+
+@login_required(login_url='provider_system:login')
+@valid_provider_required
+def orders_manage_view(request):
+    """
+    提供訂單管理功能
+    """
+    provider = Provider.objects.get(user=request.user)
+    orders = provider.order_set.filter(status__in=[0, 1, 2]).order_by('-created_at')
+    commission_rates = {"Deliver": int(COMMISSION_RATE * 100), "Provider": int((1 - COMMISSION_RATE) * 100)}
+    
+    page_name = 'orders'
+    return render(request, 'orders_manage.html', locals())
+
+
+@login_required(login_url='provider_system:login')
+@valid_provider_required
+def order_detail_view(request, order_id):
+    """
+    提供訂單明細功能
+    """
+    try:
+        provider = Provider.objects.get(user=request.user)
+        order = Order.objects.get(id=order_id)
+        detail = order.orderdetail_set.all()
+    except Order.DoesNotExist:
+        messages.add_message(request, messages.WARNING, '訂單不存在')
+        return redirect('provider_system:orders_manage')
+    except Exception as e:
+        messages.add_message(request, messages.WARNING, '讀取失敗')
+        return redirect('provider_system:orders_manage')
+    
+    page_name = 'orders'
+    return render(request, 'order_detail.html', locals())
+
+
+
+@login_required(login_url='provider_system:login')
+@valid_provider_required
+def order_ready_view(request, order_id):
+    """
+    提供訂單準備完成功能
+    """
+    try:
+        order = Order.objects.get(id=order_id)
+        order.status = 1
+        order.save()
+        messages.add_message(request, messages.SUCCESS, f'訂單編號 {order.id} 已準備完成')
+    except Order.DoesNotExist:
+        messages.add_message(request, messages.WARNING, '訂單不存在')
+    except Exception as e:
+        messages.add_message(request, messages.WARNING, '操作失敗')
+    
+    return redirect('provider_system:orders_manage')
+
+
+@login_required(login_url='provider_system:login')
+@valid_provider_required
+def history_view(request):
+    """
+    提供歷史訂單查詢功能
+    """
+    provider = Provider.objects.get(user=request.user)
+    orders = provider.order_set.filter(status=3).order_by('-created_at')
+    
+    page_name = 'orders'
+    return render(request, 'history.html', locals())
+
+
+@login_required(login_url='provider_system:login')
+@valid_provider_required
+def income_view(request):
+    """
+    提供收入查詢功能
+    """
+    provider = Provider.objects.get(user=request.user)
+    orders = provider.order_set.filter(status=3).order_by('-created_at')
+    total_income = sum([order.provider_fee for order in orders])
+    total_orders = orders.count()
+    
+    page_name = 'income'
+    return render(request, 'income.html', locals())

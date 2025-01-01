@@ -23,7 +23,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                   <h3 class="card-title h4 mb-0">商家資訊</h3>
-                  <a href="{% url 'provider_system:profile_edit' %}" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-square me-1"></i>修改商家資訊</a>
+                  <a href="{% url 'provider_system:profile_edit' %}" class="btn btn-secondary"><i class="bi bi-pencil-square me-1"></i>修改商家資訊</a>
                 </div>
                 <div class="row">
                   <div class="col-md-4">
@@ -70,7 +70,7 @@
                       {% for product in products %}
                         <tr class="text-center">
                           <td class="fw-bold">{{ product.name }}</td>
-                          <td>NT$ {{ product.price }}</td>
+                          <td>{{ product.price }}</td>
                           <td>{{ product.update_at|date:'Y/m/d H:i' }}</td>
                           <td>{{ product.description|truncatechars:10 }}</td>
                           <td class="text-center">

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}
+  歷史訂單 -
+{% endblock %}
+{% block content %}
+  {% load static %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} shadow-sm mx-auto text-center mb-4 fade show">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+        <div class="card shadow-lg mb-5">
+          <div class="card-body p-5">
+            <h1 class="display-4 text-center fw-bold mb-4">{{ provider.shop_name }}</h1>
+            <h2 class="text-center">歷史訂單</h2>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h3 class="card-title h4 mb-0">訂單</h3>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                      <tr class="text-center">
+                        <th style="width: 15%;">編號</th>
+                        <th style="width: 20%;">下單時間</th>
+                        <th style="width: 20%;">實收金額</th>
+                        <th style="width: 20%;">狀態</th>
+                        <th style="width: 15%;">查看</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for order in orders %}
+                        <tr class="text-center">
+                          <td class="fw-bold">{{ order.id }}</td>
+                          <td>{{ order.created_at|date:'Y/m/d H:i' }}</td>
+                          <td>{{ order.provider_fee }}</td>
+                          <td>
+                            {% if order.status == 0 %}
+                              <div class="text-danger">尚未準備</div>
+                            {% elif order.status == 1 %}
+                              <div class="text-warning">等待外送</div>
+                            {% elif order.status == 2 %}
+                              <div class="text-primary">外送中</div>
+                            {% elif order.status == 3 %}
+                              <div class="text-success">已送達</div>
+                            {% else %}
+                              <div class="text-secondary">未知</div>
+                            {% endif %}
+                          </td>
+                          <td class="">
+                            <a href="{% url 'provider_system:order_detail' order.id %}"><i class="bi bi-eye me-1"></i></a>
+                          </td>
+                        </tr>
+                      {% empty %}
+                        <tr>
+                          <td colspan="5" class="text-center">尚未有歷史訂單</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

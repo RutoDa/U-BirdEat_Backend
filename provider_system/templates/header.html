@@ -10,16 +10,24 @@
           {% if provider %}
             <li class="nav-item">
               {% if page_name == 'home' %}
-                <a class="nav-link active" href=".">商家管理</a>
+                <a class="nav-link active" href="{% url 'provider_system:home' %}">商家管理</a>
               {% else %}
                 <a class="nav-link" href="{% url 'provider_system:home' %}">商家管理</a>
               {% endif %}
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/provider/order">訂單管理</a>
+              {% if page_name == 'orders' %}
+                <a class="nav-link active" href="{% url 'provider_system:orders_manage' %}">訂單管理</a>
+              {% else %}
+                <a class="nav-link" href="{% url 'provider_system:orders_manage' %}">訂單管理</a>
+              {% endif %}
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/provider/menu">查看收入</a>
+              {% if page_name == 'income' %}
+                <a class="nav-link active" href="{% url 'provider_system:income' %}">查看收入</a>
+              {% else %}
+                <a class="nav-link" href="{% url 'provider_system:income' %}">查看收入</a>
+              {% endif %}
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'provider_system:logout' %}">登出</a>

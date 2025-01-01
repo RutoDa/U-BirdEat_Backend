@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block title %}
+  訂單{{ order.id }} -
+{% endblock %}
+{% block content %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} shadow-sm mx-auto text-center mb-4 fade show">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+        <div class="card shadow-lg mb-5">
+          <div class="card-body p-5">
+            <h1 class="display-4 text-center fw-bold mb-4">{{ provider.shop_name }}</h1>
+            <h2 class="text-center">訂單編號：{{ order.id }}</h2>
+
+            <div class="card bg-light mb-4">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h3 class="card-title h4 mb-0">訂單資訊</h3>
+                </div>
+                <div class="row">
+                  <div class="col-12 text-secondary">
+                    訂單狀態:{% if order.status == 0 %}
+                      <span class="text-danger">尚未準備</span>
+                    {% elif order.status == 1 %}
+                      <span class="text-warning">等待外送</span>
+                    {% elif order.status == 2 %}
+                      <span class="text-primary">外送中</span>
+                    {% elif order.status == 3 %}
+                      <span class="text-success">已送達</span>
+                    {% else %}
+                      <span class="text-secondary">未知</span>
+                    {% endif %}
+                  </div>
+                  <div class="col-12 text-secondary">
+                    外送員:{% if order.deliver %}
+                      {{ order.deliver.real_name }} ({{ order.deliver.phone }})
+                    {% else %}
+                      <span class="text-secondary">尚未指派</span>
+                    {% endif %}
+                  </div>
+                  <div class="col-12 text-secondary">下訂時間: {{ order.created_at|date:'Y/m/d H:i' }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h3 class="card-title h4 mb-0">訂單明細</h3>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                      <tr class="text-center">
+                        <th>商品</th>
+                        <th>單價</th>
+                        <th>數量</th>
+                        <th>金額</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% load math_filters %}
+                      {% for item in detail %}
+                        <tr class="text-center">
+                          <td class="fw-bold">{{ item.product.name }}</td>
+                          <td>{{ item.product.price }}</td>
+                          <td>{{ item.count }}</td>
+                          <td>{{ item.product.price|multiply:item.count }}</td>
+                        </tr>
+                      {% empty %}
+                        <tr>
+                          <td colspan="4" class="text-center">尚無訂單明細</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card bg-light mt-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12">備註: {{ order.memo }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-12">總金額: {{ order.total_price }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-12">外送費: {{ order.delivery_fee }}</div>
+                </div>
+              </div>
+            </div>
+            <h2 class="col-12 text-center mt-4">實收金額: {{ order.provider_fee }}</h2>
+
+            {% if order.status == 0 %}
+              <div class="text-center mt-4">
+                <a href="{% url 'provider_system:order_ready' order.id %}" class="btn btn-success">準備好了</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
