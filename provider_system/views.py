@@ -12,7 +12,7 @@ def valid_provider_required(view_func):
     def wrapper(request, *args, **kwargs):
         if Provider.objects.filter(user=request.user).exists():
             return view_func(request, *args, **kwargs)
-        messages.add_message(request, messages.warning, '請先登入')
+        messages.add_message(request, messages.WARNING, '請先登入')
         return redirect('provider_system:login')
     return wrapper
 
