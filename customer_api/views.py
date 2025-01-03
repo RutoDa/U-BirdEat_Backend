@@ -7,6 +7,7 @@ from provider_api.models import Order, OrderStatus, Provider, Product, OrderDeta
 from .serializers import CustomerSerializer, ProfileSerializer, ProviderSerializer, ProductSerializer, OrderSerializer, OrderProductSerializer, OrderInfoSerializer
 from .permissions import IsCustomer
 from .chatbot import get_chatbot_response
+from django.db import models
 
 
 class RegisterView(APIView):
@@ -46,10 +47,20 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 class ProvidersView(generics.ListAPIView):
     """
     提供列出所有商家 (GET) 的功能
+    可透過 ?search=關鍵字 來搜尋商家名稱或類別
     """
-    queryset = Provider.objects.all()
-    serializer_class = ProviderSerializer
+    serializer_class = ProviderSerializer 
     permission_classes = [permissions.IsAuthenticated, IsCustomer]
+
+    def get_queryset(self):
+        queryset = Provider.objects.all()
+        search = self.request.query_params.get('search', None)
+        if search:
+            queryset = queryset.filter(
+                models.Q(shop_name__icontains=search) | 
+                models.Q(category__icontains=search) 
+            )
+        return queryset
 
 
 class ProivderDetailView(APIView):
