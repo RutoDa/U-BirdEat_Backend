@@ -57,7 +57,7 @@ class ProvidersView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated, IsCustomer]
 
     def get_queryset(self):
-        queryset = Provider.objects.all()
+        queryset = Provider.objects.all().order_by('?')
         search = self.request.query_params.get('search', None)
         if search:
             queryset = queryset.filter(
