@@ -62,7 +62,7 @@ U-Bird Eats 是一個創新的外送平台，整合了傳統外送服務與智�
 - 資料庫：SQLite
 - API：RESTful API
 
-## 相關資源
+## 相關資源（本專案的其他程式碼與文件）
 - [顧客端 APP](https://github.com/RutoDa/U-BirdEat_APP-Customer)
 - [外送端 APP](https://github.com/RutoDa/U-BirdEat_APP-Delivery)
 - [商家管理系統](https://github.com/RutoDa/U-BirdEat_Backend)
