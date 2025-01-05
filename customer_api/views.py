@@ -13,6 +13,7 @@ from django.db import models
 class RegisterView(APIView):
     """
     提供顧客註冊 (POST) 的功能
+    The API endpoint that allows customers to register.
     """
     permission_classes = [permissions.AllowAny]
 
@@ -32,6 +33,7 @@ class RegisterView(APIView):
 class ProfileView(generics.RetrieveUpdateAPIView):
     """
     提供取得顧客資訊 (GET) 和更新顧客資訊 (PUT) 的功能
+    The API endpoint that allows customers to retrieve and update their profile.
     """
     queryset = Customer.objects.all()
     serializer_class = ProfileSerializer
@@ -48,6 +50,8 @@ class ProvidersView(generics.ListAPIView):
     """
     提供列出所有商家 (GET) 的功能
     可透過 ?search=關鍵字 來搜尋商家名稱或類別
+    The API endpoint that allows customers to list all providers.
+    An optional ?search=keyword parameter can be used to search for providers by shop name or category.
     """
     serializer_class = ProviderSerializer 
     permission_classes = [permissions.IsAuthenticated, IsCustomer]
@@ -66,6 +70,7 @@ class ProvidersView(generics.ListAPIView):
 class ProivderDetailView(APIView):
     """
     提供取得單個商家資訊 (GET) 的功能
+    The API endpoint that allows customers to retrieve a single provider.
     """
     permission_classes = [permissions.IsAuthenticated, IsCustomer]
     
@@ -83,6 +88,7 @@ class ProivderDetailView(APIView):
 class OrdersView(APIView):
     """
     提供列出所有訂單 (GET) 的功能
+    The API endpoint that allows customers to list all orders.
     """
     permission_classes = [permissions.IsAuthenticated, IsCustomer]
     
@@ -104,6 +110,7 @@ class OrdersView(APIView):
 class OrderView(APIView):
     """
     提供下訂單 (POST) 的功能
+    The API endpoint that allows customers to place an order.
     """
     permission_classes = [permissions.IsAuthenticated, IsCustomer]
     
@@ -180,6 +187,7 @@ class OrderView(APIView):
 class OrderDetailView(APIView):
     """
     提供取得單個訂單資訊 (GET) 的功能
+    The API endpoint that allows customers to retrieve a single order.
     """
     permission_classes = [permissions.IsAuthenticated, IsCustomer]
     
@@ -211,6 +219,7 @@ class OrderDetailView(APIView):
 class ChatRobotView(APIView):
     """
     智能機器人功能（機器人可以透過聊天了解顧客需求，並推薦餐廳與商品）
+    The API endpoint that allows customers to chat with a chatbot.
     """
     permission_classes = [permissions.IsAuthenticated, IsCustomer]
 
@@ -243,6 +252,7 @@ class ChatRobotView(APIView):
 class RandomChoiceView(APIView):
     """
     提供隨機選餐功能（若顧客不知道要吃什麼，只要給定預算，可以透過此功能讓系統幫你搭配並下定單）
+    The API endpoint that allows customers to place an order with a random choice of products and provider.
     """
     permission_classes = [permissions.IsAuthenticated, IsCustomer]
     

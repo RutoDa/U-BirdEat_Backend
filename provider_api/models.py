@@ -4,7 +4,7 @@ from customer_api.models import Customer
 from deliver_api.models import Deliver
 from decimal import Decimal
 
-COMMISSION_RATE = 0.2  # 20% 外送員抽成
+COMMISSION_RATE = 0.2  # 20% 外送員抽成 (delivery fee commission rate)
 
 class Provider(models.Model):
     id = models.AutoField(primary_key=True)

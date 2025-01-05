@@ -22,6 +22,7 @@ def valid_provider_required(view_func):
 def home_view(request):
     """
     提供商家管理功能（查看與修改商家資訊，查看、新增、修改與刪除商品資訊．）
+    The home page of provider system.(View and edit provider information, view, create, edit and delete product information.)
     """
     provider = Provider.objects.get(user=request.user)
     products = Product.objects.filter(provider=provider)
@@ -34,6 +35,7 @@ def home_view(request):
 def login_view(request):
     """
     提供商家登入功能
+    The login page of provider system.
     """
     if request.method == 'POST':
         username = request.POST['username']
@@ -50,6 +52,7 @@ def login_view(request):
 def register_view(request):
     """
     提供商家註冊功能
+    The register page of provider system.
     """
     if request.method == 'POST':
         username = request.POST['username']
@@ -91,6 +94,7 @@ def register_view(request):
 def logout_view(request):
     """
     提供商家登出功能
+    The logout view of provider system.
     """
     logout(request)
     messages.add_message(request, messages.SUCCESS, '登出成功')
@@ -102,6 +106,7 @@ def logout_view(request):
 def profile_edit_view(request):
     """
     提供商家修改資訊功能
+    The edit profile page of provider system.
     """
     provider = Provider.objects.get(user=request.user)
     
@@ -137,6 +142,7 @@ def profile_edit_view(request):
 def product_edit_view(request, product_id):
     """
     提供商家修改商品資訊功能
+    The edit product page of provider system.
     """
     provider = Provider.objects.get(user=request.user)
     try:
@@ -177,6 +183,7 @@ def product_edit_view(request, product_id):
 def product_create_view(request):
     """
     提供商家新增商品功能
+    The create product page of provider system.
     """
     provider = Provider.objects.get(user=request.user)
     if request.method == 'POST':
@@ -207,6 +214,7 @@ def product_create_view(request):
 def product_delete_view(request, product_id):
     """
     提供商家刪除商品功能
+    The delete product view of provider
     """
     try:
         provider = Provider.objects.get(user=request.user)
@@ -226,6 +234,7 @@ def product_delete_view(request, product_id):
 def orders_manage_view(request):
     """
     提供訂單管理功能
+    The order management page of provider
     """
     provider = Provider.objects.get(user=request.user)
     orders = provider.order_set.filter(status__in=[0, 1, 2]).order_by('-created_at')
@@ -240,6 +249,7 @@ def orders_manage_view(request):
 def order_detail_view(request, order_id):
     """
     提供訂單明細功能
+    The order detail page of provider
     """
     try:
         provider = Provider.objects.get(user=request.user)
@@ -262,6 +272,7 @@ def order_detail_view(request, order_id):
 def order_ready_view(request, order_id):
     """
     提供訂單準備完成功能
+    The order ready view of provider
     """
     try:
         order = Order.objects.get(id=order_id)
@@ -281,6 +292,7 @@ def order_ready_view(request, order_id):
 def history_view(request):
     """
     提供歷史訂單查詢功能
+    The history order page of provider
     """
     provider = Provider.objects.get(user=request.user)
     orders = provider.order_set.filter(status=3).order_by('-created_at')
@@ -294,6 +306,7 @@ def history_view(request):
 def income_view(request):
     """
     提供收入查詢功能
+    The income page of provider
     """
     provider = Provider.objects.get(user=request.user)
     orders = provider.order_set.filter(status=3).order_by('-created_at')

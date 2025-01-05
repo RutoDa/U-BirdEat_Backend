@@ -11,6 +11,7 @@ from .permissions import IsDeliver
 class RegisterView(APIView):
     """
     提供外送員註冊 (POST) 的功能
+    The API endpoint that allows deliver to be registered.
     """
     permission_classes = [permissions.AllowAny]
 
@@ -30,6 +31,7 @@ class RegisterView(APIView):
 class ProfileView(generics.RetrieveUpdateAPIView):
     """
     提供取得外送員資訊 (GET) 和更新外送員資訊 (PUT) 的功能
+    The API endpoint that allows deliver to retrieve and update their profile.
     """
     queryset = Deliver.objects.all()
     serializer_class = ProfileSerializer
@@ -45,6 +47,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 class OrdersView(generics.ListAPIView):
     """
     提供列出外送員可接訂單 (GET) 的功能
+    The API endpoint that allows deliver to list orders that can be accepted.
     """
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated, IsDeliver]
@@ -56,6 +59,7 @@ class OrdersView(generics.ListAPIView):
 class OrderDetailView(APIView):
     """
     提供取得單個訂單資訊 (GET) 和接訂單 (PUT) 的功能
+    The API endpoint that allows deliver to retrieve and accept an order.
     """
     
     def get(self, request, pk):
@@ -87,6 +91,7 @@ class OrderDetailView(APIView):
 class IncomeView(APIView):
     """
     提供取得外送員總收入的功能
+    The API endpoint that allows deliver to retrieve their total income.
     """
     permission_classes = [permissions.IsAuthenticated, IsDeliver]
 

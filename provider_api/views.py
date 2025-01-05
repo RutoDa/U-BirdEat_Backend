@@ -10,6 +10,7 @@ from .permissions import IsProvider
 class RegisterView(APIView):
     """
     提供商家註冊 (POST) 的功能
+    The API endpoint that allows provider to be registered.
     """
     permission_classes = [permissions.AllowAny]
 
@@ -24,6 +25,7 @@ class RegisterView(APIView):
 class ProfileView(generics.RetrieveUpdateAPIView):
     """
     提供取得商家資訊 (GET) 和更新商家資訊 (PUT) 的功能
+    The API endpoint that allows provider to retrieve and update their profile.
     """
     queryset = Provider.objects.all()
     serializer_class = ProfileSerializer
@@ -39,6 +41,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 class ProductsView(generics.ListCreateAPIView):
     """
     提供列出商家有的商品 (GET) 和新增商品 (POST) 的功能
+    The API endpoint that allows provider to list and create products.
     """
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticated, IsProvider]
@@ -53,6 +56,7 @@ class ProductsView(generics.ListCreateAPIView):
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     提供取得單個商品資訊 (GET)、更新商品資訊 (PUT/PATCH) 和刪除商品 (DELETE) 的功能
+    The API endpoint that allows provider to retrieve, update and delete products.
     """
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticated, IsProvider]
@@ -64,6 +68,7 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
 class OrdersView(generics.ListAPIView):
     """
     提供列出商家的訂單 (GET) 的功能
+    The API endpoint that allows provider to list orders.
     """
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated, IsProvider]
@@ -76,6 +81,7 @@ class OrdersView(generics.ListAPIView):
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     提供取得單個訂單資訊 (GET)、更新訂單資訊 (PUT/PATCH) 和刪除訂單 (DELETE) 的功能
+    The API endpoint that allows provider to retrieve, update and delete orders.
     """
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated, IsProvider]
@@ -101,6 +107,7 @@ class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
 class IncomeView(APIView):
     """
     提供取得商家總收入的功能
+    The API endpoint that allows provider to retrieve their total income.
     """
     permission_classes = [permissions.IsAuthenticated, IsProvider]
 
