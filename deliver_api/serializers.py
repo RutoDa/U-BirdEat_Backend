@@ -41,8 +41,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['id', 'delivery_fee', 'status', 'created_at']
-        read_only_fields = ['id', 'delivery_fee', 'created_at']
+        fields = ['id', 'delivery_fee', 'status', 'created_at', 'delivery_address']
+        read_only_fields = ['id', 'delivery_fee', 'created_at', 'delivery_address']
     
 
 class CustomerSerilizer(serializers.ModelSerializer):

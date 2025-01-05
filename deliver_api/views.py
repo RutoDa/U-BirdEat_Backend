@@ -91,7 +91,7 @@ class IncomeView(APIView):
     permission_classes = [permissions.IsAuthenticated, IsDeliver]
 
     def get(self, request):
-        orders = Order.objects.filter(deliver=request.user.deliver, status__gte=3)
+        orders = Order.objects.filter(deliver=request.user.deliver, status__gte=3).order_by('-created_at')
         order_serializer = SimpleOrderSerializer(orders, many=True)
         total_income = sum(order.delivery_fee for order in orders)
         return Response({'total_income': total_income, 'orders': order_serializer.data})
