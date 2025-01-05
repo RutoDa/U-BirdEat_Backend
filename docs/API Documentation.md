@@ -49,16 +49,16 @@ Authorization: Bearer <access_token>
 - **Body** (JSON):
   ```json
   {
-      "username": string,
-      "password": string
+      "username": "string",
+      "password": "string"
   }
   ```
 - **Success Response**: 
   - Returns access and refresh tokens
   ```json
   {
-      "access": string,
-      "refresh": string
+      "access": "string",
+      "refresh": "string"
   }
   ```
 - **Error Response**:
@@ -76,15 +76,15 @@ Authorization: Bearer <access_token>
 - **Body** (JSON):
   ```json
   {
-      "refresh": string
+      "refresh": "string"
   }
   ```
 - **Success Response**: 
   - Returns new access token and refresh token
   ```json
   {
-      "access": string,
-      "refresh": string
+      "access": "string",
+      "refresh": "string"
   }
   ```
 - **Error Response**:
@@ -103,7 +103,7 @@ Authorization: Bearer <access_token>
 - **Body** (JSON):
   ```json
   {
-      "refresh": string
+      "refresh": "string"
   }
   ```
 - **Success Response**: 
@@ -122,14 +122,14 @@ Authorization: Bearer <access_token>
 - **Body** (JSON):
     ```json
     {
-        "username": string,
-        "password": string,
-        "password2": string,
-        "shop_name": string,
-        "phone": string,
-        "address": string,
-        "image_url": string,
-        "category": string
+        "username": "string",
+        "password": "string",
+        "password2": "string",
+        "shop_name": "string",
+        "phone": "string",
+        "address": "string",
+        "image_url": "string",
+        "category": "string"
     }
     ```
 - **Success Response**:
@@ -143,11 +143,11 @@ Authorization: Bearer <access_token>
   - **success response**:
     ```json
     {
-      "shop_name": string,
-      "phone": string,
-      "address": string,
-      "image_url": string,
-      "category": string
+      "shop_name": "string",
+      "phone": "string",
+      "address": "string",
+      "image_url": "string",
+      "category": "string"
     }
     ```
 
@@ -158,21 +158,21 @@ Authorization: Bearer <access_token>
   - **Body** (JSON):
     ```json
     {
-        "shop_name": string,
-        "phone": string,
-        "address": string,
-        "image_url": string,
-        "category": string
+        "shop_name": "string",
+        "phone": "string",
+        "address": "string",
+        "image_url": "string",
+        "category": "string"
     }
     ```
   - **success response**:
     ```json
     {
-      "shop_name": string,
-      "phone": string,
-      "address": string,
-      "image_url": string,
-      "category": string
+      "shop_name": "string",
+      "phone": "string",
+      "address": "string",
+      "image_url": "string",
+      "category": "string"
     }
     ```
 
@@ -186,14 +186,13 @@ Authorization: Bearer <access_token>
     ```json
     [
       {
-        "id": number,
-        "name": string,
-        "price": number,
-        "description": string,
-        "created_at": string,
-        "update_at": string
+        "id": 123,
+        "name": "string",
+        "price": 123,
+        "description": "string",
+        "created_at": "string",
+        "update_at": "string"
       },
-      ...
     ]
     ```
 
@@ -204,12 +203,12 @@ Authorization: Bearer <access_token>
   - **Success Response**:
     ```json
     {
-        "id": number,
-        "name": string,
-        "price": number,
-        "description": string,
-        "created_at": string,
-        "update_at": string
+        "id": 123,
+        "name": "string",
+        "price": 123,
+        "description": "string",
+        "created_at": "string",
+        "update_at": "string"
     }
     ```
 
@@ -220,20 +219,20 @@ Authorization: Bearer <access_token>
   - **Body** (JSON):
     ```json
     {
-        "name": string,
-        "price": number,
-        "description": string
+        "name": "string",
+        "price": 123"string",
+        "description": "string"
     }
     ```
   - **Success Response**:
     ```json
     {
-        "id": number,
-        "name": string,
-        "price": number,
-        "description": string,
-        "created_at": string,
-        "update_at": string
+        "id": 123,
+        "name": "string",
+        "price": 123,
+        "description": "string",
+        "created_at": "string",
+        "update_at": "string"
     }
     ```
 
@@ -244,20 +243,20 @@ Authorization: Bearer <access_token>
   - **Body** (JSON):
     ```json
     {
-        "name": string,
-        "price": number,
-        "description": string
+        "name": "string",
+        "price": 123,
+        "description": "string"
     }
     ```
   - **Success Response**:
     ```json
     {
-        "id": number,
-        "name": string,
-        "price": number,
-        "description": string,
-        "created_at": string,
-        "update_at": string
+        "id": 123,
+        "name": "string",
+        "price": 123,
+        "description": "string",
+        "created_at": "string",
+        "update_at": "string"
     }
     ```
 
@@ -277,14 +276,13 @@ Authorization: Bearer <access_token>
     ```json
     [
       {
-        "id": number,
-        "total_price": number,
-        "provider_fee": number,
-        "status": number,
-        "created_at": string,
-        "memo": string
+        "id": 123,
+        "total_price": 123,
+        "provider_fee": 123,
+        "status": 123,
+        "created_at": "string",
+        "memo": "string"
       },
-      ...
     ]
     ```
 
@@ -296,22 +294,21 @@ Authorization: Bearer <access_token>
     ```json
     {
       "order_info": {
-        "id": number,
-        "total_price": number,
-        "provider_fee": number,
-        "status": number,
-        "created_at": string,
-        "memo": string
+        "id": 123,
+        "total_price": 123,
+        "provider_fee": 123,
+        "status": 123,
+        "created_at": "string",
+        "memo": "string"
       },
       "product_info": [
         {
           "product": {
-            "name": string,
-            "price": number
+            "name": "string",
+            "price": 123
           },
-          "count": number
+          "count": 123
         },
-        ...
       ]
     }
     ```
@@ -323,18 +320,18 @@ Authorization: Bearer <access_token>
   - **Body** (JSON):
     ```json
     {
-      "status": number
+      "status": 123
     }
     ```
   - **Success Response**:
     ```json
     {
-      "id": number,
-      "total_price": number,
-      "provider_fee": number,
-      "status": number,
-      "created_at": string,
-      "memo": string
+      "id": 123,
+      "total_price": 123,
+      "provider_fee": 123,
+      "status": 123,
+      "created_at": "string",
+      "memo": "string"
     }
     ```
 
@@ -353,14 +350,13 @@ Authorization: Bearer <access_token>
   - **Success Response**:
     ```json
     {
-      "total_income": number,
+      "total_income": 123,
       "orders": [
         {
-          "id": number,
-          "provider_fee": number,
-          "created_at": string
+          "id": 123,
+          "provider_fee": 123,
+          "created_at": "string"
         },
-        ...
       ]
     }
     ```
@@ -375,11 +371,11 @@ Authorization: Bearer <access_token>
 - **Body** (JSON):
   ```json
   {
-      "username": string,
-      "password": string,
-      "password2": string,
-      "real_name": string,
-      "phone": string
+      "username": "string",
+      "password": "string",
+      "password2": "string",
+      "real_name": "string",
+      "phone": "string"
   }
   ```
 - **Success Response**:
@@ -393,8 +389,8 @@ Authorization: Bearer <access_token>
   - **Success Response**:
     ```json
     {
-      "real_name": string,
-      "phone": string
+      "real_name": "string",
+      "phone": "string"
     }
     ```
 
@@ -405,15 +401,15 @@ Authorization: Bearer <access_token>
   - **Body** (JSON):
     ```json
     {
-        "real_name": string,
-        "phone": string
+        "real_name": "string",
+        "phone": "string"
     }
     ```
   - **Success Response**:
     ```json
     {
-      "real_name": string,
-      "phone": string
+      "real_name": "string",
+      "phone": "string"
     }
     ```
 
@@ -426,13 +422,12 @@ Authorization: Bearer <access_token>
     ```json
     [
         {
-            "id": number,
-            "delivery_fee": number,
-            "status": number,
-            "created_at": string,
-            "delivery_address": string,
+            "id": 123,
+            "delivery_fee": 123,
+            "status": 123,
+            "created_at": "string",
+            "delivery_address": "string",
         },
-        ...
     ]
     ```
 
@@ -443,19 +438,19 @@ Authorization: Bearer <access_token>
   - **Success Response**:
     ```json
     {
-        "id": number,
-        "status": number,
+        "id": 123,
+        "status": 123,
         "customer": {
-            "real_name": string,
-            "phone": string
+            "real_name": "string",
+            "phone": "string"
         },
         "provider": {
-            "shop_name": string,
-            "address": string,
+            "shop_name": "string",
+            "address": "string",
         },
-        "total_price": number,
-        "delivery_fee": number,
-        "delivery_address": string,
+        "total_price": 123,
+        "delivery_fee": 123,
+        "delivery_address": "string",
     }
     ```
 
@@ -466,19 +461,19 @@ Authorization: Bearer <access_token>
   - **Success Response**:
     ```json
     {
-        "id": number,
-        "status": number,
+        "id": 123,
+        "status": 123,
         "customer": {
-            "real_name": string,
-            "phone": string
+            "real_name": "string",
+            "phone": "string"
         },
         "provider": {
-            "shop_name": string,
-            "address": string,
+            "shop_name": "string",
+            "address": "string",
         },
-        "total_price": number,
-        "delivery_fee": number,
-        "delivery_address": string,
+        "total_price": 123,
+        "delivery_fee": 123,
+        "delivery_address": "string",
     }
     ```
 
@@ -490,14 +485,13 @@ Authorization: Bearer <access_token>
   - **Success Response**:
     ```json
     {
-      "total_income": number,
+      "total_income": 123,
       "orders": [
         {
-          "id": number,
-          "delivery_fee": number,
-          "created_at": string
+          "id": 123,
+          "delivery_fee": 123,
+          "created_at": "string""string"
         },
-        ...
       ]
     }
     ```
@@ -512,11 +506,11 @@ Authorization: Bearer <access_token>
 - **Body** (JSON):
   ```json
   {
-      "username": string,
-      "password": string,
-      "password2": string,
-      "real_name": string,
-      "phone": string
+      "username": "string",
+      "password": "string",
+      "password2": "string",
+      "real_name": "string",
+      "phone": "string"
   }
   ```
 - **Success Response**:
@@ -530,8 +524,8 @@ Authorization: Bearer <access_token>
   - **Success Response**:
     ```json
     {
-      "real_name": string,
-      "phone": string
+      "real_name": "string",
+      "phone": "string"
     }
     ```
 
@@ -542,15 +536,15 @@ Authorization: Bearer <access_token>
   - **Body** (JSON):
     ```json
     {
-        "real_name": string,
-        "phone": string
+        "real_name": "string",
+        "phone": "string"
     }
     ```
   - **Success Response**:
     ```json
     {
-      "real_name": string,
-      "phone": string
+      "real_name": "string",
+      "phone": "string"
     }
     ```
 
@@ -563,12 +557,11 @@ Authorization: Bearer <access_token>
     ```json
     [
       {
-        "id": number,
-        "shop_name": string,
-        "image_url": string,
-        "category": string
+        "id": 123,
+        "shop_name": "string",
+        "image_url": "string",
+        "category": "string"
       },
-      ...
     ]
     ```
 
@@ -580,12 +573,11 @@ Authorization: Bearer <access_token>
     ```json
     [
       {
-        "id": number,
-        "shop_name": string,
-        "image_url": string,
-        "category": string
+        "id": 123,
+        "shop_name": "string",
+        "image_url": "string",
+        "category": "string"
       },
-      ...
     ]
     ```
 
@@ -597,19 +589,18 @@ Authorization: Bearer <access_token>
     ```json
     {
       "provider": {
-        "id": number,
-        "shop_name": string,
-        "image_url": string,
-        "category": string
+        "id": 123,
+        "shop_name": "string",
+        "image_url": "string",
+        "category": "string"
       },
       "products": [
         {
-          "id": number,
-          "name": string,
-          "price": number,
-          "description": string
+          "id": 123,
+          "name": "string",
+          "price": 123,
+          "description": "string"
         },
-        ...
       ]
     }
     ```
@@ -624,15 +615,14 @@ Authorization: Bearer <access_token>
     {
         "products": [
             {
-                "id": number,
-                "count": number
+                "id": 123,
+                "count": 123
             },
-            ...
         ],
         "order_detail": {
-            "provider": number,
-            "delivery_address": string,
-            "memo": string
+            "provider": 123,
+            "delivery_address": "string",
+            "memo": "string"
         }
     }
     ```
@@ -645,14 +635,13 @@ Authorization: Bearer <access_token>
     ```json
     [
       {
-        "id": number,
-        "shop_name": string,
-        "deliver_name": string,
-        "status": number,
-        "total_price": number,
-        "created_at": string,
+        "id": 123,
+        "shop_name": "string",
+        "deliver_name": "string",
+        "status": 123,
+        "total_price": 123,
+        "created_at": "string",
       },
-      ...
     ]
     ```
   
@@ -663,20 +652,19 @@ Authorization: Bearer <access_token>
   - **Success Response**:
     ```json
     {
-      "id": number,
-      "shop_name": string,
-      "deliver_name": string,
-      "status": number,
-      "total_price": number,
-      "created_at": string,
-      "memo": string,
+      "id": 123,
+      "shop_name": "string",
+      "deliver_name": "string",
+      "status": 123,
+      "total_price": 123,
+      "created_at": "string",
+      "memo": "string",
       "products": [
         {
-          "name": string,
-          "price": number,
-          "count": number
+          "name": "string",
+          "price": 123,
+          "count": 123
         },
-        ...
       ]
     }
     ```
@@ -689,27 +677,26 @@ Authorization: Bearer <access_token>
   - **Body** (JSON):
     ```json
     {
-        "budget": number,
-        "delivery_address": string
+        "budget": 123,
+        "delivery_address": "string"
     }
     ```
   - **Success Response**:
     ```json
     {
-      "id": number,
-      "shop_name": string,
-      "deliver_name": string,
-      "status": number,
-      "total_price": number,
-      "created_at": string,
-      "memo": string,
+      "id": 123,
+      "shop_name": "string",
+      "deliver_name": "string",
+      "status": 123,
+      "total_price": 123,
+      "created_at": "string",
+      "memo": "string",
       "products": [
         {
-          "name": string,
-          "price": number,
-          "count": number
+          "name": "string",
+          "price": 123,
+          "count": 123
         },
-        ...
       ]
     }
     ```
@@ -730,13 +717,13 @@ Authorization: Bearer <access_token>
   - **Body** (JSON):
     ```json
     {
-        "prompt": string
+        "prompt": "string"
     }
     ```
   - **Success Response**:
     ```json
     {
-      "response": string
+      "response": "string"
     }
     ```
 
@@ -749,11 +736,10 @@ Authorization: Bearer <access_token>
     {
       "history": [
       {
-        "role": string,
-        "content": string,
-        "created_at": string
+        "role": "string",
+        "content": "string",
+        "created_at": "string"
       },
-      ...
       ]
     } 
     ```
