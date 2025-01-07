@@ -1,7 +1,10 @@
 # U-Bird Eats 外送平台後端系統
 
 ## 平台 Demo 影片
-* 尚未上傳
+
+[![U-Bird Eats Demo 影片](https://img.youtube.com/vi/6-N3gHLu0rA/0.jpg)](https://youtu.be/6-N3gHLu0rA)
+
+點擊上方圖片即可觀看完整展示
 
 ## 專案簡介
 U-Bird Eats 是一個創新的外送平台，整合了傳統外送服務與智能推薦功能，旨在為用戶提供更便捷、智能的餐飲體驗。
